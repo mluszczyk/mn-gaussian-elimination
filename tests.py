@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import numpy
-from numpy.testing import assert_array_equal
+from numpy.testing import assert_array_equal, assert_array_almost_equal
 
 from gauss import solveupper, triangulate, solve
 
@@ -73,3 +73,10 @@ class TestGauss(TestCase):
         result = solve(m, b)
         expected = numpy.array([3., 2., 1.])
         assert_array_equal(result, expected)
+
+    def test_floats(self):
+        m = numpy.array([[.1, .2, .3], [0., .1, .2], [0., 0., .1]])
+        b = numpy.array([0.1, .04, .01])
+        result = solve(m, b)
+        expected = numpy.array([.3, .2, .1])
+        assert_array_almost_equal(result, expected)

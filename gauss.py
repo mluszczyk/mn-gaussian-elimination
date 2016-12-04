@@ -36,8 +36,10 @@ def triangulate(mat):
         row = numpy.argmax(mat[c:, c]) + c
         mat[[row, c]] = mat[[c, row]]
         mat[c] /= mat[c, c]
+        assert mat[c, c] == 1
         for d in range(c + 1, n):
             mat[d] -= mat[c] * mat[d, c]
+            assert (mat[d, :c + 1] == 0).all()
 
 
 def solve(mat, b):
