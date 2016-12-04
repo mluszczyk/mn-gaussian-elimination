@@ -28,3 +28,15 @@ class TestSolveTopLeft(TestCase):
         b = numpy.array([4, 1], dtype='f')
         r = solvetopleft(m, b)
         assert_array_equal(r, [2, 1])
+
+    def test_not_triangular_last_row(self):
+        m = numpy.matrix([[2, 1], [1, 1]], dtype='f')
+        b = numpy.array([1, 1], dtype='f')
+        with self.assertRaises(Exception):
+            solvetopleft(m, b)
+
+    def test_not_triangular(self):
+        m = numpy.matrix([[2, 1, 0], [1, 1, 0], [0, 0, 1]], dtype='f')
+        b = numpy.array([1, 1, 1], dtype='f')
+        with self.assertRaises(Exception):
+            solvetopleft(m, b)
