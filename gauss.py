@@ -17,7 +17,7 @@ def solveupper(mat, b):
     for c in range(n - 2, -1, -1):
         assert mat[c, c] != 0, "nonsingular matrix!"
         assert (mat[c, :c] == 0).all(), "not a triangular matrix"
-        res[c] = (b[c] - numpy.inner(mat[c, c + 1:].reshape(-1), res[c + 1:].reshape(-1))) / mat[c, c]
+        res[c] = (b[c] - numpy.inner(mat[c, c + 1:], res[c + 1:])) / mat[c, c]
     return res
 
 
