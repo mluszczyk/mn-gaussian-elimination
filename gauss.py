@@ -1,7 +1,11 @@
 import numpy
 
 
-def solvetopleft(mat, b):
+def solveupper(mat, b):
+    """Solves system of linear equations given by a square nonsingular matrix, which
+    is upper triangular.
+    Running time is O(n^2).
+    """
     assert mat.ndim == 2
     assert b.ndim == 1
     assert mat.shape[0] == mat.shape[1]
@@ -18,14 +22,16 @@ def solvetopleft(mat, b):
 
 
 def triangulate(mat):
-    """Triangulizes a nonsingular matrix in place."""
+    """Triangulates a nonsingular matrix in place.
+    Running time O(n^3).
+    """
     assert mat.shape[0] <= mat.shape[1]
     assert mat.ndim == 2
 
     n = mat.shape[0]
 
     for c in range(n):
-        assert (mat[c, :c] == 0).all(), "not elimanted correctly"
+        assert (mat[c, :c] == 0).all(), "not eliminated correctly"
         assert (mat[c, c] != 0).all(), "nonsingular matrix"
         row = numpy.argmax(mat[c:, c]) + c
         mat[[row, c]] = mat[[c, row]]
@@ -35,6 +41,10 @@ def triangulate(mat):
 
 
 def solve(mat, b):
+    """Solves system of linear equations given by a nonsingular matrix using
+    Gaussian elimination.
+    Running time O(n^3).
+    """
     assert mat.ndim == 2
     assert b.ndim == 1
     assert mat.shape[0] == mat.shape[1]
@@ -45,4 +55,4 @@ def solve(mat, b):
     triangulate(full)
     mat, b = full[:, :n], full[:, n:]
     b = b.flatten()
-    return solvetopleft(mat, b)
+    return solveupper(mat, b)
