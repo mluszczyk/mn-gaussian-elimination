@@ -19,8 +19,12 @@ class TestSolveTopLeft(TestCase):
 
     def test_three_elements(self):
         m = numpy.matrix([[1, 4, 2], [0, 1, 3], [0, 0, 1]], dtype='f')
-        b = numpy.array([-3, 11, 5], dtype='f').T
-        print(m, b)
+        b = numpy.array([-3, 11, 5], dtype='f')
         r = solvetopleft(m, b)
-        print(numpy.linalg.solve(m, b))
-        assert_array_equal(r, numpy.asmatrix([3, -4, 5]).T)
+        assert_array_equal(r, numpy.array([3, -4, 5]))
+
+    def test_division_on_diagonal(self):
+        m = numpy.matrix([[2, 0], [0, 1]], dtype='f')
+        b = numpy.array([4, 1], dtype='f')
+        r = solvetopleft(m, b)
+        assert_array_equal(r, [2, 1])
