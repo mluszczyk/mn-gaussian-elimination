@@ -11,11 +11,11 @@ def solveupper(mat, b):
     assert mat.shape[0] == mat.shape[1]
     assert b.shape[0] == mat.shape[0]
     n = mat.shape[0]
-    assert (mat[n - 1, :n - 1] == 0).all(), "nonsingular matrix!"
+    assert (mat[n - 1, :n - 1] == 0).all(), "singular matrix!"
     res = b.copy()
     res[n - 1] /= mat[n - 1, n - 1]
     for c in range(n - 2, -1, -1):
-        assert mat[c, c] != 0, "nonsingular matrix!"
+        assert mat[c, c] != 0, "singular matrix!"
         assert (mat[c, :c] == 0).all(), "not a triangular matrix"
         res[c] = (b[c] - numpy.inner(mat[c, c + 1:], res[c + 1:])) / mat[c, c]
     return res
@@ -32,7 +32,7 @@ def triangulate(mat):
 
     for c in range(n):
         assert (mat[c, :c] == 0).all(), "not eliminated correctly"
-        assert (mat[c, c] != 0).all(), "nonsingular matrix"
+        assert (mat[c, c] != 0).all(), "singular matrix"  # hey, that's an error
         row = numpy.argmax(mat[c:, c]) + c
         mat[[row, c]] = mat[[c, row]]
         mat[c] /= mat[c, c]
